@@ -18,18 +18,24 @@ This Plugin should be extended by extensions.
 
 Example
 
-
-    class myli_wp_plugin extends myli_wp { 
+    add_action('myli_wp_loaded', function(){
     
-    	/* Constructor, dont create a constructor, use before_load and after_load */
-    	
-        function before_load(){
-	        /* My Hooks and Filters go here */
-	    } 
-	       
-        function after_load(){
-		/* My Hooks and Filters go here */
-	    }
+    	class myli_wp_plugin extends myli_wp { 
         
-    }
+       /* Constructor, dont create a constructor, use before_load and after_load */
+        	
+                function before_load(){
+    	           /* My Hooks and Filters go here */
+    	        } 
+    	       
+                function after_load(){
+    		   /* My Hooks and Filters go here */
+    	        }
+            
+            }
+        
+          $myli_wp_plugin = new myli_wp_plugin ();
+    });
+    
+    
 
