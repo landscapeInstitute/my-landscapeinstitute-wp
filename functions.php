@@ -36,11 +36,19 @@ class myli_wp extends myLI{
 		$this->json_file = $this->instance_url . '/api/swagger.json';
 		$this->api = new myLIAPI($this->json_file, $this->access_token, $this->debug);
 		
+		if(!$this->access_token_valid() && $this->refresh_token_valid()){
+			$this->get_access_token();
+		}
+		
 		if (defined('WP_DEBUG')) {
 		   $this->debug = WP_DEBUG;
 		}	
 			
         $this->after_load();
+		
+		
+		
+		
 	}
 	
 	
