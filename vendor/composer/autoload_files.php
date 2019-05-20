@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ad091d532da715e61e0689d83f65119a' => $vendorDir . '/landscapeinstitute/my-landscapeinstitute-api-php/src/my-landscapeinstitute-api.php',
+    '68a110525b505f82cde127191cb8e097' => $vendorDir . '/landscapeinstitute/my-landscapeinstitute-api-php/my-landscapeinstitute-api.php',
 );

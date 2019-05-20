@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php.git",
-                "reference": "7e20b8eaddabf92154201e6498350edf42fa5909"
+                "reference": "cfd31332b8d532bf0f3ad8dfb48c939ed3a46c92"
             },
             "require": {
                 "php": ">=5.6"
@@ -20,7 +20,10 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "src/my-landscapeinstitute-api.php"
+                    "my-landscapeinstitute-api.php"
+                ],
+                "exclude-from-classmap": [
+                    "/.git"
                 ]
             },
             "authors": [
@@ -32,7 +35,7 @@
             ],
             "description": "myli-php. Libarary for using the MyLI API and oAuth2.0 Functionality",
             "homepage": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php",
-            "time": "2019-05-20T13:14:19+00:00"
+            "time": "2019-05-20T14:01:20+00:00"
         }
     ],
     "packages-dev": [],
