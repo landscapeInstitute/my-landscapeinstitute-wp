@@ -36,19 +36,23 @@ class myli_wp extends myLI{
 		$this->json_file = $this->instance_url . '/api/swagger.json';
 		$this->api = new myLIAPI($this->json_file, $this->access_token, $this->debug);
 		
-		add_action('admin_menu', array($this,'my_li_setup_menu'));
-		add_action('wp_ajax_myli_oauth',array($this, 'my_li_ajax_oauth'));
-		add_action('wp_ajax_nopriv_myli_oauth', array($this,'my_li_ajax_oauth'));
-        	
 		if (defined('WP_DEBUG')) {
 		   $this->debug = WP_DEBUG;
 		}	
 			
         $this->after_load();
 	}
+	
+	
     
     function before_load(){}    
-    function after_load(){}
+    function after_load(){
+		
+		add_action('admin_menu', array($this,'my_li_setup_menu'));
+		add_action('wp_ajax_myli_oauth',array($this, 'my_li_ajax_oauth'));
+		add_action('wp_ajax_nopriv_myli_oauth', array($this,'my_li_ajax_oauth'));
+			
+	}
 			
 	/* Update an Option */		
 	public function update_option($key,$value){
@@ -156,7 +160,7 @@ class myli_wp extends myLI{
 	function my_li_ajax_oauth(){
         
         
-  
+
 		/* Error Checking */
 		if(!isset($_GET['refreshtoken'])) wp_die('No Refresh Token Provided was provided.');
 		if(empty($this->client_id)) 	  wp_die('plugin not configured, please notify the application owner'); 	
@@ -180,7 +184,7 @@ class myli_wp extends myLI{
  
         /* Fetch Users Profile */
 		$this->get_user_profile();
-		
+ 
 		/* Fetch Users Membership */
 		$this->get_user_membership();
 
