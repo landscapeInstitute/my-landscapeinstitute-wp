@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "url": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "landscapeinstitute/my-landscapeinstitute-api-php": "dev-master"
+    }
+}
