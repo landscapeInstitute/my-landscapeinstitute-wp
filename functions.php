@@ -13,7 +13,7 @@ Author URI: http://www.landscapeinstitute.org
 	Licensed under the GPLv2 license: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-require_once('/vendor/autoload.php');
+require_once('vendor/autoload.php');
 
 add_action('init',function(){
     $myli_wp = new myli_wp();
