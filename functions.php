@@ -59,7 +59,10 @@ class myli_wp extends myLI{
 		add_action('admin_menu', array($this,'my_li_setup_menu'));
 		add_action('wp_ajax_myli_oauth',array($this, 'my_li_ajax_oauth'));
 		add_action('wp_ajax_nopriv_myli_oauth', array($this,'my_li_ajax_oauth'));
-			
+
+		add_action('wp_ajax_myli_logout',array($this, 'my_li_ajax_logout'));
+		add_action('wp_ajax_nopriv_myli_logout', array($this,'my_li_ajax_logout'));
+		
 	}
 			
 	/* Update an Option */		
@@ -200,7 +203,19 @@ class myli_wp extends myLI{
 		wp_redirect( $origin );
 		wp_die();
 		
-	}	
+	}
+
+	/* AJAX Logout */
+	function my_li_ajax_logout(){
+        
+		$redirect = $_GET['redirect'];
+
+		$this->end_sessions();
+	        
+		wp_redirect( $redirect );
+		wp_die();
+		
+	}		
 }
 
 
