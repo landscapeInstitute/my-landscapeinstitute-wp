@@ -63,6 +63,11 @@ class myli_wp extends myLI{
 		add_action('wp_ajax_myli_logout',array($this, 'my_li_ajax_logout'));
 		add_action('wp_ajax_nopriv_myli_logout', array($this,'my_li_ajax_logout'));
 		
+		
+		add_action('wp_ajax_myli_profile',array($this, 'my_li_ajax_profile'));
+		add_action('wp_ajax_nopriv_myli_profile', array($this,'my_li_ajax_profile'));		
+		
+		
 	}
 			
 	/* Update an Option */		
@@ -207,15 +212,27 @@ class myli_wp extends myLI{
 
 	/* AJAX Logout */
 	function my_li_ajax_logout(){
-        
-		$redirect = $_GET['redirect'];
-
+		
+		$origin = $_GET['origin'];
+		$logout = $this->api->app->getlogouturl->query(array('returnURL'=>$origin ));
+		
 		$this->end_sessions();
 	        
-		wp_redirect( $redirect );
+		wp_redirect( $logout );
 		wp_die();
 		
-	}		
+	}	
+
+	/* AJAX Logout */
+	function my_li_ajax_profile(){
+		
+		$profile = $this->api->app->getprofileurl->query();
+
+		wp_redirect( $profile );
+		wp_die();
+		
+	}	
+	
 }
 
 
