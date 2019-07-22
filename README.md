@@ -44,5 +44,3 @@ This Plugin should be extended by other plugins.
     });
     
 `
-    
-
