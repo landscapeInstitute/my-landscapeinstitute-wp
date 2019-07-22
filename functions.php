@@ -15,6 +15,18 @@ Author URI: http://www.landscapeinstitute.org
 
 require_once('vendor/autoload.php');
 
+
+require 'plugin-update-checker/plugin-update-checker.php';
+$updater = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/landscapeInstitute/my-landscapeinstitute-wp',
+	__FILE__,
+	'my-landscapeinstitute-wp'
+);
+
+$updater->setAuthentication(' 080fbc77d80856fe7d1d7608ff5dc42c38bf8081 ');
+$updater->setBranch('master');
+
+
 add_action('init',function(){
     $myli_wp = new myli_wp();
     do_action('myli_wp_loaded');
