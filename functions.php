@@ -13,9 +13,6 @@ Author URI: http://www.landscapeinstitute.org
 	Licensed under the GPLv2 license: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-require_once('vendor/autoload.php');
-
-
 require 'plugin-update-checker/plugin-update-checker.php';
 $updater = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/landscapeInstitute/my-landscapeinstitute-wp',
@@ -23,9 +20,9 @@ $updater = Puc_v4_Factory::buildUpdateChecker(
 	'my-landscapeinstitute-wp'
 );
 
-$updater->setAuthentication(base64_decode('IDZlMmNjNDkwZGMxZGRlOTA4YTdkYTcyODhiYjhjY2ZjMDQyYmI1MDAg'));
 $updater->setBranch('master');
 
+require_once('vendor/autoload.php');
 
 add_action('init',function(){
     $myli_wp = new myli_wp();
