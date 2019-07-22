@@ -1,10 +1,10 @@
 <?php
 
 /*
-Plugin Name: Landscape Institute | MyLI WP
+Plugin Name: Landscape Institute | MyLI API and oAuth2.0
 Plugin URI: https://www.landscapeinstitute.org
-Description: Setup oAuth2 and API access.
-Version: 2.1
+Description: Setup oAuth2.0 using MyLI API and oAuth2.0
+Version: 2.0
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -23,7 +23,7 @@ $updater = Puc_v4_Factory::buildUpdateChecker(
 	'my-landscapeinstitute-wp'
 );
 
-$updater->setAuthentication('c71ac34071867479d2eaa4e89b06fabc95cb55d4');
+$updater->setAuthentication(base64_decode('IDZlMmNjNDkwZGMxZGRlOTA4YTdkYTcyODhiYjhjY2ZjMDQyYmI1MDAg'));
 $updater->setBranch('master');
 
 
