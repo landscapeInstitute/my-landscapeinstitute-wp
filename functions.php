@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://www.landscapeinstitute.org
 Description: Setup oAuth2 and API access.
-Version: 2.1
+Version: 2.2
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -162,7 +162,7 @@ class myli_wp{
 	/* Admin menu Setup */
 	function my_li_setup_menu(){
 		
-            add_menu_page('My Custom Page', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
+            add_menu_page('MyLI oAuth', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
             add_submenu_page( 'my-li', 'Settings', 'Settings',
                 'manage_options', 'my-li');
                 
