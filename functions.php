@@ -1,10 +1,10 @@
 <?php
 
 /*
-Plugin Name: Landscape Institute | MyLI API and oAuth2.0
+Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://www.landscapeinstitute.org
-Description: Setup oAuth2.0 using MyLI API and oAuth2.0
-Version: 2.0
+Description: Setup oAuth2 and API access.
+Version: 2.1
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -13,6 +13,11 @@ Author URI: http://www.landscapeinstitute.org
 	Licensed under the GPLv2 license: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
+require_once('vendor/autoload.php');
+/********************************************************************************/
+/* Handles Plugin Updates */
+/********************************************************************************/
+
 require 'plugin-update-checker/plugin-update-checker.php';
 $updater = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/landscapeInstitute/my-landscapeinstitute-wp',
@@ -20,49 +25,36 @@ $updater = Puc_v4_Factory::buildUpdateChecker(
 	'my-landscapeinstitute-wp'
 );
 
+$updater->setAuthentication(' 080fbc77d80856fe7d1d7608ff5dc42c38bf8081 ');
 $updater->setBranch('master');
+/***************************************/
 
-require_once('vendor/autoload.php');
 
 add_action('init',function(){
     $myli_wp = new myli_wp();
     do_action('myli_wp_loaded');
 });
 
-class myli_wp extends myLI{ 
+class myli_wp{ 
 
-	/* Constructor , extends default to use Wordpress Settings */
 	public function __construct(){
+		
+		$this->before_load();
 
-        $this->before_load();
-		
-		$this->client_id = $this->get_option('client_id');
-		$this->client_secret = $this->get_option('client_secret');
-		$this->instance_url = $this->get_option('instance_url');
-		$this->oAuth_url = $this->instance_url . '/oauth/' . $this->client_id;
-        $this->access_token = myLISession::load('access_token');
-		
-		$this->json_file = $this->instance_url . '/api/swagger.json';
-		$this->api = new myLIAPI($this->json_file, $this->access_token, $this->debug);
-		
-		if(!$this->access_token_valid() && $this->refresh_token_valid()){
-			$this->get_access_token();
-		}
-		
-		if (defined('WP_DEBUG')) {
-		   $this->debug = WP_DEBUG;
-		}	
-			
+		$this->myli = myLI(array(
+			'client_id'=> $this->get_option('client_id'),
+			'client_secret'=> $this->get_option('client_secret'),
+			'instance_url'=> $this->get_option('instance_url'),
+			'debug'=> (defined('WP_DEBUG') ? WP_DEBUG : false),
+		));
+
         $this->after_load();
-		
-		
-		
-		
 	}
 	
-	
-    
-    function before_load(){}    
+    function before_load(){
+		
+		
+	}    
     function after_load(){
 		
 		add_action('admin_menu', array($this,'my_li_setup_menu'));
@@ -71,11 +63,9 @@ class myli_wp extends myLI{
 
 		add_action('wp_ajax_myli_logout',array($this, 'my_li_ajax_logout'));
 		add_action('wp_ajax_nopriv_myli_logout', array($this,'my_li_ajax_logout'));
-		
-		
+				
 		add_action('wp_ajax_myli_profile',array($this, 'my_li_ajax_profile'));
 		add_action('wp_ajax_nopriv_myli_profile', array($this,'my_li_ajax_profile'));		
-		
 		
 	}
 			
@@ -167,15 +157,12 @@ class myli_wp extends myLI{
 		</form>
 
 		<?php
-		
 	}
 	
 	/* Admin menu Setup */
 	function my_li_setup_menu(){
 		
-	
             add_menu_page('My Custom Page', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
-            
             add_submenu_page( 'my-li', 'Settings', 'Settings',
                 'manage_options', 'my-li');
                 
@@ -183,56 +170,51 @@ class myli_wp extends myLI{
 	 
 	/* AJAX oAuth Return URL has been called */
 	function my_li_ajax_oauth(){
-        
-        
-
+		
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
+		
 		/* Error Checking */
-		if(!isset($_GET['refreshtoken'])) wp_die('No Refresh Token Provided was provided.');
-		if(empty($this->client_id)) 	  wp_die('plugin not configured, please notify the application owner'); 	
-		if(empty($this->client_secret))   wp_die('plugin not configured, please notify the application owner'); 		
-		if(empty($this->json_file))  	  wp_die('plugin not configured, please notify the application owner'); 	
+		if(empty($_GET['code'])) 	      		wp_die('Error: ' . $_GET['error']); 		
+		if(empty($this->myli->client_id)) 	  	wp_die('plugin not configured, No Client ID please notify the application owner'); 	
+		if(empty($this->myli->client_secret))   wp_die('plugin not configured, No Client Secret please notify the application owner'); 		 	
 
-		/* Set the refresh token */
-		$this->set_refresh_token($_GET['refreshtoken']);
-		        
-        /* Refresh token was invalid */  
-  
-		if($this->refresh_token_valid() == false){
-            wp_die('The provided refresh token was invalid. Please notify the application owner.');
-        }
-   
-		/* Our Origin for next hop */
-		$origin = (isset($_GET['origin']) ? $_GET['origin'] : '/');
-	        
-		/* Fetch Access Token */
-		$this->get_access_token();
- 
+		/* Uses the provided oAuth Code to get a Token */
+		$this->myli->get_access_token();
+				
+		/* Get the original location when the login was made */
+		$redirect = $this->myli->get_origin();
+		
+
         /* Fetch Users Profile */
-		$this->get_user_profile();
+		$this->myli->get_user_profile();
  
 		/* Fetch Users Membership */
-		$this->get_user_membership();
+		$this->myli->get_user_membership();
 
 		/* Redirect to Origin */
-		wp_redirect( $origin );
-		wp_die();
-		
+		if($redirect){
+	
+			header("Location: " . $redirect );
+			die();	
+			
+		}else{
+			header("Location: " . '/' );
+			die();	
+		}
+
 	}
 
 	/* AJAX Logout */
 	function my_li_ajax_logout(){
 		
-		$origin = $_GET['origin'];
-		$logout = $this->api->app->getlogouturl->query(array('returnURL'=>$origin ));
-		
-		$this->end_sessions();
-	        
-		wp_redirect( $logout );
+		$redirect = $_GET['redirect'];
+		$this->logout($redirect);       
 		wp_die();
 		
 	}	
+	
 
-	/* AJAX Logout */
 	function my_li_ajax_profile(){
 		
 		$profile = $this->api->app->getprofileurl->query();
