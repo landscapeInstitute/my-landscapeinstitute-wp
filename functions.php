@@ -1,10 +1,10 @@
 <?php
 
 /*
-Plugin Name: Landscape Institute | MyLI API and oAuth2.0
+Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://www.landscapeinstitute.org
-Description: Setup oAuth2.0 using MyLI API and oAuth2.0
-Version: 2.0
+Description: Setup oAuth2 and API access.
+Version: 2.1
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
