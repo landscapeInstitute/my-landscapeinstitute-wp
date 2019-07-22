@@ -23,7 +23,7 @@ $updater = Puc_v4_Factory::buildUpdateChecker(
 	'my-landscapeinstitute-wp'
 );
 
-$updater->setAuthentication(' 080fbc77d80856fe7d1d7608ff5dc42c38bf8081 ');
+$updater->setAuthentication('c71ac34071867479d2eaa4e89b06fabc95cb55d4');
 $updater->setBranch('master');
 
 
