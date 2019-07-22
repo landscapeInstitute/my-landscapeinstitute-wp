@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://www.landscapeinstitute.org
 Description: Setup oAuth2 and API access.
-Version: 2.2
+Version: 2.3
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -109,7 +109,7 @@ class myli_wp{
 					<tr class="importer-item">
 						<td class="import-system">
 							<span class="importer-title"><?php echo _('Instance URL') ?></span>
-							<input type="text" name="instance_url" id="instance_url" value="<?php echo $this->instance_url; ?>">
+							<input type="text" name="instance_url" id="instance_url" value="<?php echo $this->myli->instance_url; ?>">
 						</td>
 						<td class="desc">
 							<span class="importer-desc"><?php echo _('Full URL of the site to connect to eg: https://dev-my.landscapeinstitute.org'); ?></span>
@@ -118,7 +118,7 @@ class myli_wp{
 					<tr class="importer-item">
 						<td class="import-system">
 							<span class="importer-title"><?php echo _('Client ID') ?></span>
-							<input type="text" name="client_id" id="client_id" value="<?php echo $this->client_id; ?>">
+							<input type="text" name="client_id" id="client_id" value="<?php echo $this->myli->client_id; ?>">
 						</td>
 						<td class="desc">
 							<span class="importer-desc"><?php echo _('What is the Client ID set in Dynamics?') ?></span>
@@ -127,7 +127,7 @@ class myli_wp{
 					<tr class="importer-item">
 						<td class="import-system">
 							<span class="importer-title"><?php echo _('Client Secret') ?></span>
-								<input type="text" name="client_secret" id="client_secret" value="<?php echo $this->client_secret; ?>">
+								<input type="text" name="client_secret" id="client_secret" value="<?php echo $this->myli->client_secret; ?>">
 						</td>
 						<td class="desc">
 							<span class="importer-desc"><?php echo _('What is the Client Secret set in Dynamics?') ?></span>
