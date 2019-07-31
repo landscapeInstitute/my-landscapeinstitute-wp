@@ -2,9 +2,9 @@
 
 /*
 Plugin Name: Landscape Institute | MyLI WP
-Plugin URI: https://www.landscapeinstitute.org
+Plugin URI: https://github.com/landscapeInstitute/my-landscapeinstitute-wp
 Description: Setup oAuth2 and API access.
-Version: 2.7
+Version: 2.6
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -19,25 +19,12 @@ require_once('vendor/autoload.php');
 /********************************************************************************/
 
 require('updater.php');
+
+add_action('admin_init',function(){
+	new WP_GitHub_Updater(__FILE__);
+});
+
 /***************************************/
-
-if (is_admin()) { // note the use of is_admin() to double check that this is happening in the admin
-		$config = array(
-			'slug' => plugin_basename(__FILE__), // this is the slug of your plugin
-			'proper_folder_name' => 'plugin-name', // this is the name of the folder your plugin lives in
-			'api_url' => 'https://api.github.com/repos/landscapeInstitute/my-landscapeinstitute-wp', // the GitHub API url of your GitHub repo
-			'raw_url' => 'https://raw.githubusercontent.com/landscapeInstitute/my-landscapeinstitute-wp/master', // the GitHub raw url of your GitHub repo
-			'github_url' => 'https://github.com/landscapeInstitute/my-landscapeinstitute-wp', // the GitHub url of your GitHub repo
-			'zip_url' => 'https://github.com/landscapeInstitute/my-landscapeinstitute-wp/archive/master.zip', // the zip url of the GitHub repo
-			'sslverify' => true, // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
-			'requires' => '3.0', // which version of WordPress does your plugin require?
-			'tested' => '3.3', // which version of WordPress is your plugin tested up to?
-			'readme' => 'README.md', // which file to use as the readme for the version number
-		);
-		new WP_GitHub_Updater($config);
-		
-	}
-
 
 add_action('init',function(){
     $myli_wp = new myli_wp();
