@@ -26,7 +26,14 @@ class myLI{
         return self::$instance;
     }
 	
+	/* If Extending the MyLI Class this info can come from a database for example */
 	public function __construct($arr){
+		
+		$this->init($arr);
+			
+	}
+	
+	public function init($arr){
 		
 		/* Pull Access Token from either ARR or session is available */
 		$this->access_token = (isset($arr['access_token']) ? $arr['access_token'] : myLISession::load('access_token'));	
@@ -56,7 +63,7 @@ class myLI{
 			'debug' => $this->debug,
 			'json_url' => $this->json_url,
 		));	
-				
+		
 	}
 	
 	/* Send to get AuthCode, the current URL is to your call back URL, set when app was registered */

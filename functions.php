@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://github.com/landscapeInstitute/my-landscapeinstitute-wp
 Description: Setup oAuth2 and API access.
-Version: 2.9
+Version: 2.10
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -30,9 +30,9 @@ function myli_wp(){
 	return myli_wp::instance();
 }
 
-class myli_wp{ 
+class myli_wp extends myLI{ 
 
-	protected static $instance = null;
+	public static $instance = null;
 
 	public static function instance() {
 
@@ -44,23 +44,24 @@ class myli_wp{
     }
 
 	public function __construct(){
-		
-		do_action("myli_wp_before_load");
-		$this->before_load();
-
-		$this->myli = myLI(array(
-			'client_id'=> $this->get_option('client_id'),
-			'client_secret'=> $this->get_option('client_secret'),
-			'instance_url'=> $this->get_option('instance_url'),
-			'debug'=> (defined('WP_DEBUG') ? WP_DEBUG : false),
-		));
-
-        $this->after_load();
-		do_action("myli_wp_init");
-	}
 	
-	public function login(){
-		$this->myli->login();
+		do_action("myli_wp_before_load");
+		
+		$this->before_load();
+		
+		$arr = array(
+			'client_id' =>$this->get_option('client_id'),
+			'client_secret' => $this->get_option('client_secret'),
+			'instance_url' => $this->get_option('instance_url'),
+			'debug' => (defined('WP_DEBUG') ? WP_DEBUG : false),
+		);
+		
+
+		$this->init($arr);
+			
+        $this->after_load();
+		
+		do_action("myli_wp_init");
 	}
 	
     private function before_load(){
@@ -72,6 +73,9 @@ class myli_wp{
 		add_action('admin_menu', array($this,'my_li_setup_menu'));
 		add_action('wp_ajax_myli_oauth',array($this, 'my_li_ajax_oauth'));
 		add_action('wp_ajax_nopriv_myli_oauth', array($this,'my_li_ajax_oauth'));
+
+		add_action('wp_ajax_myli_login',array($this, 'my_li_ajax_login'));
+		add_action('wp_ajax_nopriv_myli_login', array($this,'my_li_ajax_login'));
 
 		add_action('wp_ajax_myli_logout',array($this, 'my_li_ajax_logout'));
 		add_action('wp_ajax_nopriv_myli_logout', array($this,'my_li_ajax_logout'));
@@ -182,25 +186,26 @@ class myli_wp{
 	 
 	/* AJAX oAuth Return URL has been called */
 	function my_li_ajax_oauth(){
+
 		
 		do_action("myli_wp_before_oauth");
 		
 		/* Error Checking */
 		if(empty($_GET['code'])) 	      		wp_die('Error: ' . $_GET['error']); 		
-		if(empty($this->myli->client_id)) 	  	wp_die('plugin not configured, No Client ID please notify the application owner'); 	
-		if(empty($this->myli->client_secret))   wp_die('plugin not configured, No Client Secret please notify the application owner'); 		 	
+		if(empty($this->client_id)) 	  		wp_die('plugin not configured, No Client ID please notify the application owner'); 	
+		if(empty($this->client_secret))   		wp_die('plugin not configured, No Client Secret please notify the application owner'); 		 	
 
 		/* Uses the provided oAuth Code to get a Token */
-		$this->myli->get_access_token();
+		$this->get_access_token();
 				
 		/* Get the original location when the login was made */
-		$redirect = $this->myli->get_origin();
+		$redirect = $this->get_origin();
 		
         /* Fetch Users Profile */
-		$this->myli->get_user_profile();
+		$this->get_user_profile();
  
 		/* Fetch Users Membership */
-		$this->myli->get_user_membership();
+		$this->get_user_membership();
 		
 		do_action("myli_wp_after_oauth");
 		
@@ -226,11 +231,18 @@ class myli_wp{
 		
 	}	
 	
-
+	/* AJAX Logout */
+	function my_li_ajax_login(){
+		
+		$redirect = $_GET['redirect'];
+		$this->login($redirect);       
+		wp_die();
+		
+	}	
+	
 	function my_li_ajax_profile(){
 		
 		$profile = $this->api->app->getprofileurl->query();
-
 		wp_redirect( $profile );
 		wp_die();
 		
@@ -238,5 +250,6 @@ class myli_wp{
 	
 }
 
+myli_wp();
 
 ?>

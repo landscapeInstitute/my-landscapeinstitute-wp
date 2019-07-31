@@ -1,8 +1,11 @@
 
+## MyLI WP Plugin
+
 
 ### Description
 
-On it's own, when this plugin is installed it merely allows use of the myli_wp class which is an extended class of the myLI PHP class which uses wordpress data to store its settings. You can extend the MyLI Class to provide additional functionality or use it's instance in your own classes or use it's actions.
+On it's own, when this plugin is installed it merely allows use of the myli_wp class which is an extended class of the myLI PHP class which uses wordpress data to store its settings. 
+You can use the functions, methods, actions and filters provided by this plugin to add additional functionality.
 
 ### Installation
 
@@ -17,7 +20,7 @@ On it's own, when this plugin is installed it merely allows use of the myli_wp c
 	if(!is_user_logged_in()){
 		myli_wp()->login();
 	}else{
-	echo myli_wp()->myli->get_user_profile()->FullName;
+	echo myli_wp()->get_user_profile()->FullName;
     }
 });`
 
@@ -41,4 +44,9 @@ Some basic functions that can be used
 ### Accessing Raw API
 ##### `myli_wp()->myli->api->me->userProfile->query()` :  Returns the same as get_user_profile
 
+### Ajax Links for buttons etc
+
+##### `admin-ajax.php?action=my_li_ajax_login&redirect=URL` :  Send the user to login and return to the given page
+##### `admin-ajax.php?action=my_li_ajax_logout&redirect=URL` :  Send the user to logout and return to the given page
+##### `admin-ajax.php?action=my_li_ajax_profile` : Send user their profile page on your given instance
 
