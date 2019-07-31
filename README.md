@@ -1,5 +1,5 @@
 
-~Current Version:1.4~
+~Current Version:2.5~
 
 # MyLI WP Plugin
 
