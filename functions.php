@@ -109,7 +109,7 @@ class myli_wp{
 					<tr class="importer-item">
 						<td class="import-system">
 							<span class="importer-title"><?php echo _('Instance URL') ?></span>
-							<input type="text" name="instance_url" id="instance_url" value="<?php echo $this->myli->instance_url; ?>">
+							<input type="text" name="instance_url" id="instance_url" value="<?php echo(isset($this->instance_url) ? $this->instance_url : null) ?>">
 						</td>
 						<td class="desc">
 							<span class="importer-desc"><?php echo _('Full URL of the site to connect to eg: https://dev-my.landscapeinstitute.org'); ?></span>
@@ -118,7 +118,7 @@ class myli_wp{
 					<tr class="importer-item">
 						<td class="import-system">
 							<span class="importer-title"><?php echo _('Client ID') ?></span>
-							<input type="text" name="client_id" id="client_id" value="<?php echo $this->myli->client_id; ?>">
+							<input type="text" name="client_id" id="client_id" value="<?php echo(isset($this->client_id) ? $this->client_id : null) ?>">
 						</td>
 						<td class="desc">
 							<span class="importer-desc"><?php echo _('What is the Client ID set in Dynamics?') ?></span>
@@ -127,7 +127,7 @@ class myli_wp{
 					<tr class="importer-item">
 						<td class="import-system">
 							<span class="importer-title"><?php echo _('Client Secret') ?></span>
-								<input type="text" name="client_secret" id="client_secret" value="<?php echo $this->myli->client_secret; ?>">
+								<input type="text" name="client_secret" id="client_secret" value="<?php echo(isset($this->client_secret) ? $this->client_secret : null) ?>">
 						</td>
 						<td class="desc">
 							<span class="importer-desc"><?php echo _('What is the Client Secret set in Dynamics?') ?></span>
@@ -162,7 +162,7 @@ class myli_wp{
 	/* Admin menu Setup */
 	function my_li_setup_menu(){
 		
-            add_menu_page('MyLI oAuth', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
+            add_menu_page('My Custom Page', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
             add_submenu_page( 'my-li', 'Settings', 'Settings',
                 'manage_options', 'my-li');
                 
