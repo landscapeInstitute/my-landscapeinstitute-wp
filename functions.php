@@ -4,12 +4,12 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://www.landscapeinstitute.org
 Description: Setup oAuth2 and API access.
-Version: 2.4
+Version: 2.1
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
 /*
-	Copyright 2017	Landscape Institute	(email : louis.varley@landscapeinstitute.org)
+	Copyright 2017	NPRS	(email : louisvarley@googlemail.com)
 	Licensed under the GPLv2 license: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
@@ -18,15 +18,25 @@ require_once('vendor/autoload.php');
 /* Handles Plugin Updates */
 /********************************************************************************/
 
-require 'plugin-update-checker/plugin-update-checker.php';
-$updater = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/landscapeInstitute/my-landscapeinstitute-wp',
-	__FILE__,
-	'my-landscapeinstitute-wp'
-);
-
-$updater->setBranch('master');
+require('updater.php');
 /***************************************/
+
+if (is_admin()) { // note the use of is_admin() to double check that this is happening in the admin
+		$config = array(
+			'slug' => plugin_basename(__FILE__), // this is the slug of your plugin
+			'proper_folder_name' => 'plugin-name', // this is the name of the folder your plugin lives in
+			'api_url' => 'https://api.github.com/repos/landscapeInstitute/my-landscapeinstitute-wp', // the GitHub API url of your GitHub repo
+			'raw_url' => 'https://raw.githubusercontent.com/landscapeInstitute/my-landscapeinstitute-wp/master', // the GitHub raw url of your GitHub repo
+			'github_url' => 'https://github.com/landscapeInstitute/my-landscapeinstitute-wp', // the GitHub url of your GitHub repo
+			'zip_url' => 'https://github.com/landscapeInstitute/my-landscapeinstitute-wp/archive/master.zip', // the zip url of the GitHub repo
+			'sslverify' => true, // whether WP should check the validity of the SSL cert when getting an update, see https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/2 and https://github.com/jkudish/WordPress-GitHub-Plugin-Updater/issues/4 for details
+			'requires' => '3.0', // which version of WordPress does your plugin require?
+			'tested' => '3.3', // which version of WordPress is your plugin tested up to?
+			'readme' => 'README.md', // which file to use as the readme for the version number
+		);
+		new WP_GitHub_Updater($config);
+		
+	}
 
 
 add_action('init',function(){
@@ -161,7 +171,7 @@ class myli_wp{
 	/* Admin menu Setup */
 	function my_li_setup_menu(){
 		
-            add_menu_page('My Custom Page', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
+            add_menu_page('MyLI Settings', 'MyLI', 'manage_options', 'my-li', array($this,'my_li_menu'),'dashicons-admin-network');
             add_submenu_page( 'my-li', 'Settings', 'Settings',
                 'manage_options', 'my-li');
                 
@@ -169,9 +179,6 @@ class myli_wp{
 	 
 	/* AJAX oAuth Return URL has been called */
 	function my_li_ajax_oauth(){
-		
-		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
 		
 		/* Error Checking */
 		if(empty($_GET['code'])) 	      		wp_die('Error: ' . $_GET['error']); 		
@@ -184,7 +191,8 @@ class myli_wp{
 		/* Get the original location when the login was made */
 		$redirect = $this->myli->get_origin();
 		
-        	/* Fetch Users Profile */
+
+        /* Fetch Users Profile */
 		$this->myli->get_user_profile();
  
 		/* Fetch Users Membership */
