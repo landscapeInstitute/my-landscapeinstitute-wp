@@ -1,8 +1,7 @@
 
+## MyLI oAuth and API Class
 
-# MyLI oAuth and API Class
-
-## Introduction
+### Introduction
 
 This library allows Apps using client ID's and Secret or the use of personal access tokens to access the MyLI API. This library is for users who are integrating services to MyLI. 
 - All MyLI users can access their own data by use of personal access tokens. 
@@ -104,3 +103,8 @@ You can directly call the API for more advanced usage by using the API object
     $myLI->api->me->hasPermission->query(array('permissionID'=>'A_PERMISSION'));
 
 We recommend you checkout the API explorer on the instance of MyLI you are connecting to to understand the endpoints and arguements required. 
+
+## Extending this class
+
+If you extend this class and your settings for example are coming from a database or other source
+Uou should generate your config within your class constructor and pass your config array to a method called init(). 
