@@ -9,7 +9,7 @@ Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
 /*
-	Copyright 2017	NPRS	(email : louisvarley@googlemail.com)
+	Copyright 2017	Landscape Institute	(email : louis.varley@landscapeinstitute.org)
 	Licensed under the GPLv2 license: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
@@ -184,8 +184,7 @@ class myli_wp{
 		/* Get the original location when the login was made */
 		$redirect = $this->myli->get_origin();
 		
-
-        /* Fetch Users Profile */
+        	/* Fetch Users Profile */
 		$this->myli->get_user_profile();
  
 		/* Fetch Users Membership */
