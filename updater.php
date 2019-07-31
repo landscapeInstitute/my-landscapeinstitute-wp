@@ -53,7 +53,7 @@ class WP_GitHub_Updater{
 	
 	function show_messages(){
 		
-		if($_GET['updater']){
+		if(isset($_GET['updater'])){
 			
 			if($_GET['updater'] == 'fail'){
 				$class = 'notice notice-error';
