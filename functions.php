@@ -26,15 +26,26 @@ add_action('admin_init',function(){
 
 /***************************************/
 
-add_action('init',function(){
-    $myli_wp = new myli_wp();
-    do_action('myli_wp_loaded');
-});
+function myli_wp(){
+	return myli_wp::instance();
+}
 
 class myli_wp{ 
 
+	protected static $instance = null;
+
+	public static function instance() {
+
+        if ( null == static::$instance ) {
+            static::$instance = new static();
+        }
+
+        return static::$instance;
+    }
+
 	public function __construct(){
 		
+		do_action("myli_wp_before_load");
 		$this->before_load();
 
 		$this->myli = myLI(array(
@@ -45,13 +56,14 @@ class myli_wp{
 		));
 
         $this->after_load();
+		do_action("myli_wp_after_load");
 	}
 	
-    function before_load(){
-		
+    private function before_load(){
 		
 	}    
-    function after_load(){
+	
+	private function after_load(){
 		
 		add_action('admin_menu', array($this,'my_li_setup_menu'));
 		add_action('wp_ajax_myli_oauth',array($this, 'my_li_ajax_oauth'));
@@ -167,6 +179,8 @@ class myli_wp{
 	/* AJAX oAuth Return URL has been called */
 	function my_li_ajax_oauth(){
 		
+		do_action("myli_wp_before_oauth");
+		
 		/* Error Checking */
 		if(empty($_GET['code'])) 	      		wp_die('Error: ' . $_GET['error']); 		
 		if(empty($this->myli->client_id)) 	  	wp_die('plugin not configured, No Client ID please notify the application owner'); 	
@@ -184,7 +198,9 @@ class myli_wp{
  
 		/* Fetch Users Membership */
 		$this->myli->get_user_membership();
-
+		
+		do_action("myli_wp_after_oauth");
+		
 		/* Redirect to Origin */
 		if($redirect){
 	
