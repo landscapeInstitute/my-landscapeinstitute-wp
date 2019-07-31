@@ -56,7 +56,11 @@ class myli_wp{
 		));
 
         $this->after_load();
-		do_action("myli_wp_after_load");
+		do_action("myli_wp_init");
+	}
+	
+	public function login(){
+		$this->myli->login();
 	}
 	
     private function before_load(){
@@ -192,7 +196,6 @@ class myli_wp{
 		/* Get the original location when the login was made */
 		$redirect = $this->myli->get_origin();
 		
-
         /* Fetch Users Profile */
 		$this->myli->get_user_profile();
  
