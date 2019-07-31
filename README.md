@@ -1,4 +1,4 @@
-~Current Version:2.6~
+~Current Version:2.7~
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
 
