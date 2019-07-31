@@ -25,7 +25,6 @@ $updater = Puc_v4_Factory::buildUpdateChecker(
 	'my-landscapeinstitute-wp'
 );
 
-$updater->setAuthentication(' 080fbc77d80856fe7d1d7608ff5dc42c38bf8081 ');
 $updater->setBranch('master');
 /***************************************/
 
