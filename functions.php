@@ -57,7 +57,7 @@ class myli_wp extends myLI{
 		);
 		
 
-		$this->init($arr);
+		$this->setup($arr);
 			
         $this->after_load();
 		
