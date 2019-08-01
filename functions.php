@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://github.com/landscapeInstitute/my-landscapeinstitute-wp
 Description: Setup oAuth2 and API access.
-Version: 2.14
+Version: 2.15
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -36,15 +36,16 @@ class myli_wp extends myLI{
 
 	public static function instance() {
 
-        if ( null == static::$instance ) {
+        if ( null == self::$instance ) {
             static::$instance = new static();
+			static::$instance->init();
         }
 
         return static::$instance;
     }
 
 	public function __construct(){
-	
+		
 		do_action("myli_wp_before_load");
 		
 		$this->before_load();
@@ -60,7 +61,10 @@ class myli_wp extends myLI{
 		$this->setup($arr);
 			
         $this->after_load();
-		
+
+	}
+	
+	private function init(){
 		do_action("myli_wp_init");
 	}
 	
@@ -144,7 +148,7 @@ class myli_wp extends myLI{
 					</tr>				
 				</tbody>
 			</table>
-			<?php echo apply_filters('myli_admin_settings',$admin_settings); ?>
+			<?php echo apply_filters('myli_wp_admin_settings',$admin_settings); ?>
 			<input type="submit" value="<?php echo _('Save') ?>" class="button button-primary button-large">
 		</form>
 
@@ -163,7 +167,6 @@ class myli_wp extends myLI{
 	/* AJAX oAuth Return URL has been called */
 	function my_li_ajax_oauth(){
 
-		
 		do_action("myli_wp_before_oauth");
 		
 		/* Error Checking */
@@ -185,16 +188,26 @@ class myli_wp extends myLI{
 		
 		do_action("myli_wp_after_oauth");
 		
-		/* Redirect to Origin */
-		if($redirect){
-	
-			header("Location: " . $redirect );
-			die();	
+		if($this->has_access_token()){
+			
+			do_action("myli_wp_oauth_success");
+			
+				/* Redirect to Origin */
+				if($redirect){
+					header("Location: " . $redirect );
+					die();	
+				}else{
+					header("Location: " . '/' );
+					die();	
+				}
 			
 		}else{
-			header("Location: " . '/' );
-			die();	
+			
+			do_action("myli_wp_oauth_failure");
+			echo 'An error occured while logging you in';
 		}
+		
+
 
 	}
 
@@ -226,6 +239,8 @@ class myli_wp extends myLI{
 	
 }
 
-myli_wp();
+add_action('init',function(){
+	myli_wp();
+});
 
 ?>

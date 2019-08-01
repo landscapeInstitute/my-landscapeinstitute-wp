@@ -24,11 +24,18 @@ You can use the functions, methods, actions and filters provided by this plugin 
     }
 });`
 
-#### Hooks and Actions
+#### Actions
 ##### `myli_wp_before_load` :  MyLI WP Is about to load
 ##### `myli_wp_init` :  MyLI WP has finished loading
 ##### `myli_wp_before_oauth` :  User has returned from oAuth Response
 ##### `myli_wp_after_oauth` :  User has completed oAuth Response
+##### `myli_wp_oauth_success` :  User has completed oAuth Response has successfully logged in
+##### `myli_wp_oauth_failure` :  User has completed oAuth Response but has failed to log in
+
+#### Filters
+##### `myli_wp_admin_settings` :  Filter for adding new admin settings, provide additional html, example below
+
+
 
 ### Updates
 
