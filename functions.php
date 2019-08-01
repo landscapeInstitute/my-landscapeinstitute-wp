@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://github.com/landscapeInstitute/my-landscapeinstitute-wp
 Description: Setup oAuth2 and API access.
-Version: 2.12
+Version: 2.11
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -100,76 +100,52 @@ class myli_wp extends myLI{
 
 	/* Admin Menu HTML */
 	function my_li_menu(){
-		echo _('<h1>MyLI oAuth2.0 Settings</h1>');
+		echo _('<h1>MyLI WP Settings</h1><br />');
 		
-		if (isset($_POST['client_id'])) {
-			$this->update_option('client_id', $_POST['client_id']);
-		}
-		
-		if (isset($_POST['client_secret'])) {
-			$this->update_option('client_secret', $_POST['client_secret']);
+		$admin_settings = null;
+
+		foreach($_POST as $key => $var){
+			
+			$this->update_option($key, $var);
 		}
 
-		if (isset($_POST['instance_url'])) {
-			$this->update_option('instance_url', $_POST['instance_url']);
-		}		
-
-		if (isset($_POST['json_file'])) {
-			$this->update_option('json_file', $_POST['json_file']);
-		}			
-		
 		?>
 		<form method="POST">
-			<table class="widefat striped">
-				<tbody>
-					<tr class="importer-item">
-						<td class="import-system">
-							<span class="importer-title"><?php echo _('Instance URL') ?></span>
+			<h2>General Settings</h2>
+			<table class="form-table">
+				<tbody>			
+					<tr>
+						<th scope="row"><label for="blogname"><?php echo _('Instance URL') ?></label></th>
+						<td>
 							<input type="text" name="instance_url" id="instance_url" value="<?php echo(isset($this->instance_url) ? $this->instance_url : null) ?>">
+							<p class="description"><?php echo _('Full URL of the site to connect to eg: https://dev-my.landscapeinstitute.org'); ?></p>
 						</td>
-						<td class="desc">
-							<span class="importer-desc"><?php echo _('Full URL of the site to connect to eg: https://dev-my.landscapeinstitute.org'); ?></span>
-						</td>
-					</tr>							
-					<tr class="importer-item">
-						<td class="import-system">
-							<span class="importer-title"><?php echo _('Client ID') ?></span>
+					</tr>
+					<tr>
+						<th scope="row"><label for="blogname"><?php echo _('Client ID') ?></label></th>
+						<td>
 							<input type="text" name="client_id" id="client_id" value="<?php echo(isset($this->client_id) ? $this->client_id : null) ?>">
-						</td>
-						<td class="desc">
-							<span class="importer-desc"><?php echo _('What is the Client ID set in Dynamics?') ?></span>
+							<p class="description"><?php echo _('What is the Client ID set in Dynamics?') ?></p>
 						</td>
 					</tr>
-					<tr class="importer-item">
-						<td class="import-system">
-							<span class="importer-title"><?php echo _('Client Secret') ?></span>
-								<input type="text" name="client_secret" id="client_secret" value="<?php echo(isset($this->client_secret) ? $this->client_secret : null) ?>">
-						</td>
-						<td class="desc">
-							<span class="importer-desc"><?php echo _('What is the Client Secret set in Dynamics?') ?></span>
+					<tr>
+						<th scope="row"><label for="blogname"><?php echo _('Client Secret') ?></label></th>
+						<td>
+							<input type="text" name="client_secret" id="client_secret" value="<?php echo(isset($this->client_secret) ? $this->client_secret : null) ?>">
+							<p class="description"><?php echo _('What is the Client Secret set in Dynamics?') ?></p>
 						</td>
 					</tr>
-					<tr class="importer-item">
-						<td class="import-system">
-							<span class="importer-title"><?php echo _('Return URL') ?></span>
-								<input type="text" readonly="true"  value="<?php echo get_home_url() ?>/wp-admin/admin-ajax.php?action=myli_oauth">
-						</td>
-						<td class="desc">
-							<span class="importer-desc"><?php echo _('Set the return/redirect URL in Dynamics to this value') ?></span>
-						</td>
-					</tr>	
-					<tr class="importer-item">
-						<td class="import-system" style="height:20px" colspan="2">
-							
-						</td>
-					</tr>
-					<tr class="importer-item">
-						<td class="import-system" colspan="2">
-							<input type="submit" value="<?php echo _('Save') ?>" class="button button-primary button-large">
+					<tr>
+						<th scope="row"><label for="blogname"><?php echo _('Return URL') ?></label></th>
+						<td>
+							<input type="text" readonly="true"  value="<?php echo get_home_url() ?>/wp-admin/admin-ajax.php?action=myli_oauth">
+							<p class="description"><?php echo _('Set the return/redirect URL in Dynamics to this value') ?></p>
 						</td>
 					</tr>				
 				</tbody>
-			</table>			
+			</table>
+			<?php echo apply_filters('myli_admin_settings',$admin_settings); ?>
+			<input type="submit" value="<?php echo _('Save') ?>" class="button button-primary button-large">
 		</form>
 
 		<?php

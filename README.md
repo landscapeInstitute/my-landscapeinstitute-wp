@@ -50,3 +50,34 @@ Some basic functions that can be used
 ##### `admin-ajax.php?action=my_li_ajax_logout&redirect=URL` :  Send the user to logout and return to the given page
 ##### `admin-ajax.php?action=my_li_ajax_profile` : Send user their profile page on your given instance
 
+### Add-on Plugins
+
+If you are writing plugins which extend the functionality and wish to save settings you can use a filter to add additional settings. for example below
+will add a new section and setting called new_setting which can be retrived using
+
+`myli_wp()->get_option('my_setting')`
+
+the following should be called during admin_init and after myli_wp_loaded action. 
+
+`add_filter('myli_admin_settings',function($admin_settings){
+					
+	$admin_settings = $admin_settings . '
+	
+	<h2>New Settings</h2>
+	<table class="form-table">
+		<tbody>			
+			<tr>
+				<th scope="row"><label>' .  _('New Setting') . '</label></th>
+				<td>
+					<input type="text" name="new_setting" id="new_setting" value="' . myli_wp()->get_option('new_setting')  . '">
+					<p class="description"' . _('Whats the value of new setting') . '</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	';
+	
+	return $admin_settings;
+					
+ });`
