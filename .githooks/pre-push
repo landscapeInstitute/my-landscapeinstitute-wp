@@ -40,6 +40,7 @@ version=`awk '{if(NR==7) print $0}' functions.php`
 version=`echo "${version/Version: /}"`
 version=`increment_version $version`
 version="Version: $version"
+printf $version
 sed -i "7s/.*/$version/" functions.php
 git add functions.php
 git commit -m "$version" -m "";
