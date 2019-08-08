@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5c3b519acb893159a9653223193e35d1
+class ComposerStaticInitae89f45c6faf7037e6bd12736ecc7188
 {
     public static $files = array (
         '68a110525b505f82cde127191cb8e097' => __DIR__ . '/..' . '/landscapeinstitute/my-landscapeinstitute-api-php/my-landscapeinstitute-api.php',
