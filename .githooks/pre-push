@@ -47,5 +47,6 @@ git commit -m "$version" -m "";
 
 composer update
 git add -A 
-git commit -m "Composer Auto Commit Updates"
+git diff-index --cached --quiet HEAD || git commit -m "Composer Auto Commit Updates"
+
 
