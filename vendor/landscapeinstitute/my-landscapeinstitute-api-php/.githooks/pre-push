@@ -21,6 +21,7 @@
 
 
 
+
 increment_version ()
 {
   declare -a part=( ${1//\./ } )
@@ -36,16 +37,12 @@ increment_version ()
   new="${part[*]}"
   echo -e "${new// /.}"
 } 
-version=`awk '{if(NR==7) print $0}' functions.php`
+version=`awk '{if(NR==5) print $0}' my-landscapeinstitute-api.php`
 version=`echo "${version/Version: /}"`
 version=`increment_version $version`
-version="Version: $version"
-printf $version
-sed -i "7s/.*/$version/" functions.php
-git add functions.php
-git commit -m "$version" -m "";
+nVersion="Version: $version"
 
-composer update
-git add -A 
-git commit -m "Composer Auto Commit Updates"
+sed -i "5s/.*/$nVersion/" my-landscapeinstitute-api.php
+git add my-landscapeinstitute-api.php
+git commit -m "$version" -m "";
 

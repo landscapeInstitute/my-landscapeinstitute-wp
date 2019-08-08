@@ -9,16 +9,11 @@ Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
 /*
-	Copyright 2017	NPRS	(email : louisvarley@googlemail.com)
+	Copyright 2019	Landscape Institute	(email : louisvarley@googlemail.com)
 	Licensed under the GPLv2 license: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 require_once('vendor/autoload.php');
-/********************************************************************************/
-/* Handles Plugin Updates */
-/********************************************************************************/
-
-require('updater.php');
 
 add_action('admin_init',function(){
 	new WP_GitHub_Updater(__FILE__);

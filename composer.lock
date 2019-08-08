@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d041bbbc6b447465df1c431c8d1bcaba",
+    "content-hash": "342adfbeb36ef3c2bc8c4596d0a1ac0d",
     "packages": [
         {
             "name": "landscapeinstitute/my-landscapeinstitute-api-php",
@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php.git",
-                "reference": "2b75cd683d7e31e3798b0187d5e4f2ae664e321c"
+                "reference": "ecafc00ea06ea5a297cb70b2c8fb11b6f161521e"
             },
             "require": {
                 "php": ">=5.6"
@@ -35,14 +35,47 @@
             ],
             "description": "myli-php. Libarary for using the MyLI API and oAuth2.0 Functionality",
             "homepage": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php",
-            "time": "2019-08-01T12:51:35+00:00"
+            "time": "2019-08-05T17:07:34+00:00"
+        },
+        {
+            "name": "landscapeinstitute/wp-github-plugin-updater",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/landscapeInstitute/wp-github-plugin-updater",
+                "reference": "e8e7f1012dc2e08edd2afa5e8f7ae5c7c7c04e02"
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "updater.php"
+                ],
+                "exclude-from-classmap": [
+                    "/.git",
+                    "/.githooks"
+                ]
+            },
+            "authors": [
+                {
+                    "name": "Louis Varley",
+                    "email": "louis.varley@landscapeinstitute.org",
+                    "homepage": "https://www.landscapeinstitute.org"
+                }
+            ],
+            "description": "A simple GitHub Wordpress Plugin Updater which does not use the core updater framework",
+            "homepage": "https://github.com/landscapeInstitute/wp-github-plugin-updater",
+            "time": "2019-08-08T14:51:45+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "landscapeinstitute/my-landscapeinstitute-api-php": 20
+        "landscapeinstitute/my-landscapeinstitute-api-php": 20,
+        "landscapeinstitute/wp-github-plugin-updater": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
