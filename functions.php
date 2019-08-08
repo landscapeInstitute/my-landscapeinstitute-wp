@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://github.com/landscapeInstitute/my-landscapeinstitute-wp
 Description: Setup oAuth2 and API access.
-Version: 2.18
+Version: 2.19
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
