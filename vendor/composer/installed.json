@@ -31,5 +31,39 @@
         ],
         "description": "myli-php. Libarary for using the MyLI API and oAuth2.0 Functionality",
         "homepage": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php"
+    },
+    {
+        "name": "landscapeinstitute/wp-github-plugin-updater",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/landscapeInstitute/wp-github-plugin-updater",
+            "reference": "5f62c66744b676907a2c29e5f35673bf87c8e716"
+        },
+        "require": {
+            "php": ">=5.6"
+        },
+        "time": "2019-08-08T15:47:03+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "updater.php"
+            ],
+            "exclude-from-classmap": [
+                "/.git",
+                "/.githooks"
+            ]
+        },
+        "authors": [
+            {
+                "name": "Louis Varley",
+                "email": "louis.varley@landscapeinstitute.org",
+                "homepage": "https://www.landscapeinstitute.org"
+            }
+        ],
+        "description": "A simple GitHub Wordpress Plugin Updater which does not use the core updater framework",
+        "homepage": "https://github.com/landscapeInstitute/wp-github-plugin-updater"
     }
 ]

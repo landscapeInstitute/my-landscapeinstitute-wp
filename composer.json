@@ -3,9 +3,15 @@
         {
             "url": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php.git",
             "type": "git"
-        }
+        },
+        {
+            "url": "https://github.com/landscapeInstitute/wp-github-plugin-updater",
+            "type": "git"
+        }	
     ],
     "require": {
-        "landscapeinstitute/my-landscapeinstitute-api-php": "dev-master"
+        "landscapeinstitute/my-landscapeinstitute-api-php": "dev-master",
+        "landscapeinstitute/wp-github-plugin-updater": "dev-master"		
     }
+	
 }
