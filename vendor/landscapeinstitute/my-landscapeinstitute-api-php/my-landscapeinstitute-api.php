@@ -1,32 +1,22 @@
 <?php
-/**
-* MyLI API and oAuth Class
-*
-* @author     Louis Varley <louisvarley@googlemail.com>
-* @copyright  2019 Landscape Institute
-* @license    http://www.php.net/license/3_1.txt  PHP License 3.1
+
+/*
+Name: MyLI PHP API Class
+Version: 2.9
+Author: Louis Varley
+Author URI: http://www.landscapeinstitute.org
 */
-
-
-function myLI($arr){
-
-	return myLI::instance($arr);
-}
 
 class myLI{
 	
-	public static $instance;
-
-	public static function instance($arr) {
+	/* If Extending the MyLI Class this info can come from a database for example */
+	public function __construct( $arr ){
 		
-        if (self::$instance === null) {
-            self::$instance = new self($arr);
-        }
-
-        return self::$instance;
-    }
+		$this->setup( $arr );
+			
+	}
 	
-	public function __construct($arr){
+	public function setup( $arr ){
 		
 		/* Pull Access Token from either ARR or session is available */
 		$this->access_token = (isset($arr['access_token']) ? $arr['access_token'] : myLISession::load('access_token'));	
@@ -49,6 +39,9 @@ class myLI{
 		
 		/* Sets any pending Auth Codes to this instance */
 		$this->set_auth_code();
+		
+		/* Is Debug Enabled */
+		$this->debug = (isset($arr['debug']) ? $arr['debug'] : false);
 	
 		/* Instance of the API */
 		$this->api = new myLIAPI(array(
@@ -56,17 +49,19 @@ class myLI{
 			'debug' => $this->debug,
 			'json_url' => $this->json_url,
 		));	
-				
+		
 	}
 	
 	/* Send to get AuthCode, the current URL is to your call back URL, set when app was registered */
-	private function get_auth_code(){
+	private function get_auth_code($redirect=null){
 		
 		if(empty($this->client_id)){
 			return new myLIException("No Client ID provided");
 		}
 		
-		$redirect = myLIHelper::current_url();
+		if(empty($redirect)){
+			$redirect = myLIHelper::current_url();
+		}
 		
 		header("Location: " . $this->oauth_url . '/auth/' . '?redirect=' . urlencode($redirect) . '&client_id=' . $this->client_id);
 		die();
@@ -74,7 +69,7 @@ class myLI{
 	}
 
 	/* Is the users access token set and valid? */
-	function has_access_token(){
+	public function has_access_token(){
 		
 		if(!isset($this->access_token) || !$this->access_token_valid($this->access_token)){
 			return false;
@@ -85,7 +80,7 @@ class myLI{
 	}
 
 	/* Get Access Token */
-	function get_access_token(){
+	public function get_access_token(){
 		
 		if(empty($this->auth_code)){
 			$this->get_auth_code();
@@ -153,7 +148,7 @@ class myLI{
 	}
 	
 	/* Log Out - Removes any stored sessions variables - Uses SELF URL if no redirect given */
-	function logout($redirect){
+	function logout( $redirect=null ){
 		
 		$redirect = empty($redirect) ? myLIHelper::current_url() : $redirect;
 		$logout = $this->api->app->getlogouturl->query(array('redirect'=>$redirect ));
@@ -165,12 +160,15 @@ class myLI{
 	}
 	
 	/* Log In - Alias for get Access Token */
-	function login(){
+	function login( $redirect=null ){
+			
+		if(empty($this->auth_code)){
+			$this->get_auth_code($redirect);
+		}	
 			
 		$this->get_access_token();
 	}	
 	
-		
 	/* Set the access token */
 	private function set_access_token($access_token){
 		
@@ -241,7 +239,6 @@ class myLI{
 		
 	}	
 
-
 	/* Call Any Other Endpoint */
 	function call($endpoint,$method,$args){
 		
@@ -288,10 +285,7 @@ class myLISession{
 				unset($_SESSION[$key]);
 			}
 		}
-		
-		
 	}
-	
 }
 
 class myLIAPI {
@@ -338,7 +332,7 @@ class myLIAPI {
  
     }    
 
-    public function __set(string $var, $value) {
+    public function __set($var, $value) {
         
         if (property_exists($this, $var)) {
             $this->$var = $value;

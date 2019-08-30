@@ -6,12 +6,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php.git",
-            "reference": "e25e05ce1bc90cb715797a34f2e7a8bc9bd80535"
+            "reference": "ecafc00ea06ea5a297cb70b2c8fb11b6f161521e"
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2019-05-20T21:43:37+00:00",
+        "time": "2019-08-05T17:07:34+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
