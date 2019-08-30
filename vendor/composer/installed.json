@@ -6,12 +6,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php.git",
-            "reference": "ecafc00ea06ea5a297cb70b2c8fb11b6f161521e"
+            "reference": "e25e05ce1bc90cb715797a34f2e7a8bc9bd80535"
         },
         "require": {
             "php": ">=5.6"
         },
-        "time": "2019-08-05T17:07:34+00:00",
+        "time": "2019-05-20T21:43:37+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -31,39 +31,5 @@
         ],
         "description": "myli-php. Libarary for using the MyLI API and oAuth2.0 Functionality",
         "homepage": "https://github.com/landscapeInstitute/my-landscapeinstitute-api-php"
-    },
-    {
-        "name": "landscapeinstitute/wp-github-plugin-updater",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/landscapeInstitute/wp-github-plugin-updater",
-            "reference": "5f62c66744b676907a2c29e5f35673bf87c8e716"
-        },
-        "require": {
-            "php": ">=5.6"
-        },
-        "time": "2019-08-08T15:47:03+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "files": [
-                "updater.php"
-            ],
-            "exclude-from-classmap": [
-                "/.git",
-                "/.githooks"
-            ]
-        },
-        "authors": [
-            {
-                "name": "Louis Varley",
-                "email": "louis.varley@landscapeinstitute.org",
-                "homepage": "https://www.landscapeinstitute.org"
-            }
-        ],
-        "description": "A simple GitHub Wordpress Plugin Updater which does not use the core updater framework",
-        "homepage": "https://github.com/landscapeInstitute/wp-github-plugin-updater"
     }
 ]
