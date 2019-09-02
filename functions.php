@@ -188,7 +188,7 @@ class myli_wp extends myLI{
 
 		/* Uses the provided oAuth Code to get a Token */
 		$this->get_access_token();
-				
+								
 		/* Get the original location when the login was made */
 		$redirect = $this->get_origin();
 		
