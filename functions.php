@@ -4,7 +4,7 @@
 Plugin Name: Landscape Institute | MyLI WP
 Plugin URI: https://github.com/landscapeInstitute/my-landscapeinstitute-wp
 Description: Setup oAuth2 and API access.
-Version: 2.25
+Version: 2.22
 Author: Louis Varley
 Author URI: http://www.landscapeinstitute.org
 */
@@ -65,24 +65,7 @@ class myli_wp extends myLI{
 	
     private function before_load(){
 		
-		add_action('init', array($this,'start_session'), 1);
-		
 	}    
-	
-	
-	function start_session() {
-		if(!session_id()) {
-			session_start();
-		}
-
-		add_action('wp_logout', 'end_session');
-		add_action('wp_login', 'end_session');
-		add_action('end_session_action', 'end_session');
-
-		function end_session() {
-			session_destroy ();
-		}
-	}	
 	
 	private function after_load(){
 		
@@ -188,7 +171,7 @@ class myli_wp extends myLI{
 
 		/* Uses the provided oAuth Code to get a Token */
 		$this->get_access_token();
-								
+				
 		/* Get the original location when the login was made */
 		$redirect = $this->get_origin();
 		
