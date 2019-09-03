@@ -70,24 +70,10 @@ class myli_wp extends myLI{
 	
     private function before_load(){
 		
-		add_action('init', array($this,'start_session'), 1);
+		
 		
 	}    
 	
-	
-	function start_session() {
-		if(!session_id()) {
-			session_start();
-		}
-
-		add_action('wp_logout', 'end_session');
-		add_action('wp_login', 'end_session');
-		add_action('end_session_action', 'end_session');
-
-		function end_session() {
-			session_destroy ();
-		}
-	}	
 	
 	private function after_load(){
 		
@@ -183,6 +169,9 @@ class myli_wp extends myLI{
 	
 	/* Set the access token */
 	function set_access_token($access_token){
+			
+		if (!session_id())
+			session_start();
 		
 		$this->access_token = $access_token;
 		$this->api->access_token = $access_token;
