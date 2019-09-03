@@ -41,6 +41,10 @@ class myli_wp extends myLI{
 
 	public function __construct(){
 		
+		if (session_status() == PHP_SESSION_NONE) {
+			session_start();
+		}
+		
 		do_action("myli_wp_before_load");
 		
 		$this->before_load();
@@ -50,6 +54,7 @@ class myli_wp extends myLI{
 			'client_secret' => $this->get_option('client_secret'),
 			'instance_url' => $this->get_option('instance_url'),
 			'debug' => (defined('WP_DEBUG') ? WP_DEBUG : false),
+			'access_token' => (isset($_SESSION['myli_access_token']) ? $_SESSION['myli_access_token'] : null),
 		);
 		
 
@@ -175,6 +180,18 @@ class myli_wp extends myLI{
                 'manage_options', 'my-li');
                 
 	}
+	
+	/* Set the access token */
+	function set_access_token($access_token){
+		
+		$this->access_token = $access_token;
+		$this->api->access_token = $access_token;
+		$_SESSION['myli_access_token'] = $access_token;
+		
+
+
+    
+	}	
 	 
 	/* AJAX oAuth Return URL has been called */
 	function my_li_ajax_oauth(){
@@ -187,7 +204,7 @@ class myli_wp extends myLI{
 		if(empty($this->client_secret))   		wp_die('plugin not configured, No Client Secret please notify the application owner'); 		 	
 
 		/* Uses the provided oAuth Code to get a Token */
-		$this->get_access_token();
+		$this->get_access_token();						
 				
 		/* Get the original location when the login was made */
 		$redirect = $this->get_origin();
@@ -203,20 +220,21 @@ class myli_wp extends myLI{
 		if($this->has_access_token()){
 			
 			do_action("myli_wp_oauth_success");
-			
+
 				/* Redirect to Origin */
 				if($redirect){
 					header("Location: " . $redirect );
-					die();	
+					exit();
 				}else{
 					header("Location: " . '/' );
-					die();	
+					exit();	
 				}
 			
 		}else{
 			
 			do_action("myli_wp_oauth_failure");
-			echo 'An error occured while logging you in';
+			echo 'An error occurred while logging you in, please close all windows and try again';
+			exit();
 		}
 		
 
